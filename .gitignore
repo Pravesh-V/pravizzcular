@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native
+/ios
+/android
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Secrets — never commit. See .env.example for the required shape.
+.env
+.env.*
+!.env.example
+
+# Testing
+coverage/
+
+# Editor / OS
+.DS_Store
+*.log
+.idea/
+.vscode/
+!.vscode/settings.json
+
+# Build artifacts
+*.tsbuildinfo

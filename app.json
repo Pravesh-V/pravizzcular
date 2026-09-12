@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "Pravesh",
+    "slug": "pravesh",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "pravesh",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "app.pravesh.mobile"
+    },
+    "android": {
+      "package": "app.pravesh.mobile",
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": ["expo-router", "expo-localization"],
+    "experiments": {
+      "typedRoutes": true,
+      "tsconfigPaths": true
+    }
+  }
+}
