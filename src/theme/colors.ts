@@ -40,9 +40,15 @@ export interface Palette {
   textOnAccent: string;
 
   accent: string;
+  /** Second stop for the accent gradient — used on primary CTAs and hero moments only. */
+  accentDeep: string;
+  /** Two-stop gradient colors, brand moments only: primary button, hero ring, PR celebration. */
+  accentGradient: readonly [string, string];
   /** Low-opacity accent for fills and chips. */
   accentSoft: string;
   accentPressed: string;
+  /** Soft glow behind hero content. Screen-scale use only, never on small elements. */
+  accentGlow: string;
 
   positive: string;
   positiveSoft: string;
@@ -74,9 +80,12 @@ const dark: Palette = {
   textMuted: '#6B6B73',
   textOnAccent: '#0A0A0B',
 
-  accent: '#6E8BFF',
-  accentSoft: 'rgba(110, 139, 255, 0.14)',
-  accentPressed: '#5B7AF0',
+  accent: '#7C6CFF',
+  accentDeep: '#4F7DFF',
+  accentGradient: ['#9C7CFF', '#4F7DFF'],
+  accentSoft: 'rgba(124, 108, 255, 0.16)',
+  accentPressed: '#6857EE',
+  accentGlow: 'rgba(124, 108, 255, 0.22)',
 
   positive: '#4CC38A',
   positiveSoft: 'rgba(76, 195, 138, 0.14)',
@@ -105,9 +114,12 @@ const light: Palette = {
   textMuted: '#8A8A92',
   textOnAccent: '#FFFFFF',
 
-  accent: '#4666E5',
-  accentSoft: 'rgba(70, 102, 229, 0.10)',
-  accentPressed: '#3A57CC',
+  accent: '#5B4FE0',
+  accentDeep: '#3654D6',
+  accentGradient: ['#7A5BEA', '#3654D6'],
+  accentSoft: 'rgba(91, 79, 224, 0.10)',
+  accentPressed: '#4A3FC8',
+  accentGlow: 'rgba(91, 79, 224, 0.14)',
 
   positive: '#2F9E68',
   positiveSoft: 'rgba(47, 158, 104, 0.10)',

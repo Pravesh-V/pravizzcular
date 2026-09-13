@@ -1,4 +1,5 @@
-import { ActivityIndicator, Pressable, View, type ViewStyle } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { ActivityIndicator, Platform, Pressable, View, type ViewStyle } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -47,7 +48,8 @@ export function Button({
   const inactive = disabled || loading;
 
   const surface: Record<Variant, ViewStyle> = {
-    primary: { backgroundColor: theme.color.accent },
+    // Gradient fill is painted separately below; this stays transparent.
+    primary: {},
     secondary: {
       backgroundColor: theme.color.elevated,
       borderWidth: theme.borderWidth.thin,
@@ -71,6 +73,22 @@ export function Button({
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: 1 - pressed.value * 0.02 }],
   }));
+
+  // A soft colored glow under the primary CTA is the one "loud" moment this
+  // component is allowed — every other variant stays flat and quiet.
+  const glowStyle: ViewStyle =
+    variant === 'primary' && !inactive
+      ? Platform.select({
+          web: { boxShadow: `0 8px 24px -6px ${theme.color.accentGlow}` } as ViewStyle,
+          default: {
+            shadowColor: theme.color.accent,
+            shadowOpacity: 0.35,
+            shadowRadius: 14,
+            shadowOffset: { width: 0, height: 8 },
+            elevation: 6,
+          },
+        }) ?? {}
+      : {};
 
   return (
     <AnimatedPressable
@@ -96,12 +114,23 @@ export function Button({
           gap: theme.spacing.sm,
           opacity: inactive ? 0.45 : 1,
           alignSelf: fullWidth ? 'stretch' : 'flex-start',
+          overflow: 'hidden',
         },
         surface[variant],
+        glowStyle,
         style,
         animatedStyle,
       ]}
     >
+      {variant === 'primary' ? (
+        <LinearGradient
+          colors={theme.color.accentGradient}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={{ ...StyleSheetAbsoluteFill }}
+        />
+      ) : null}
+
       {loading ? (
         <ActivityIndicator
           size="small"
@@ -110,10 +139,7 @@ export function Button({
       ) : (
         <>
           {leading ? <View>{leading}</View> : null}
-          <Text
-            variant={size === 'sm' ? 'subhead' : 'bodyStrong'}
-            tone={tone[variant]}
-          >
+          <Text variant={size === 'sm' ? 'subhead' : 'bodyStrong'} tone={tone[variant]}>
             {label}
           </Text>
         </>
@@ -121,3 +147,11 @@ export function Button({
     </AnimatedPressable>
   );
 }
+
+const StyleSheetAbsoluteFill: ViewStyle = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+};

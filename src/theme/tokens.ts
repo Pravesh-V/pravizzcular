@@ -68,15 +68,17 @@ export type TypeScaleKey =
 export interface TypeStyle {
   fontSize: number;
   lineHeight: number;
-  fontWeight: '400' | '500' | '600' | '700';
+  fontWeight: '400' | '500' | '600' | '700' | '800';
   letterSpacing?: number;
   textTransform?: 'uppercase';
 }
 
 export const typeScale: Record<TypeScaleKey, TypeStyle> = {
-  display: { fontSize: 34, lineHeight: 40, fontWeight: '700', letterSpacing: -0.6 },
-  title1: { fontSize: 27, lineHeight: 33, fontWeight: '600', letterSpacing: -0.4 },
-  title2: { fontSize: 21, lineHeight: 27, fontWeight: '600', letterSpacing: -0.2 },
+  // Bolder and larger than a typical productivity app — this is the one place
+  // per screen allowed to feel loud; everything else stays restrained.
+  display: { fontSize: 38, lineHeight: 43, fontWeight: '800', letterSpacing: -0.8 },
+  title1: { fontSize: 28, lineHeight: 34, fontWeight: '700', letterSpacing: -0.5 },
+  title2: { fontSize: 22, lineHeight: 28, fontWeight: '700', letterSpacing: -0.3 },
   title3: { fontSize: 17, lineHeight: 23, fontWeight: '600', letterSpacing: -0.1 },
   body: { fontSize: 16, lineHeight: 22, fontWeight: '400' },
   bodyStrong: { fontSize: 16, lineHeight: 22, fontWeight: '600' },

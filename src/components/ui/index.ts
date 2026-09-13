@@ -3,6 +3,7 @@ export { Button } from './Button';
 export { Card } from './Card';
 export { EmptyState } from './EmptyState';
 export { Field } from './Field';
+export { HeroGlow } from './HeroGlow';
 export { ProgressBar, type ProgressTone } from './ProgressBar';
 export { ProgressRing } from './ProgressRing';
 export { Screen } from './Screen';

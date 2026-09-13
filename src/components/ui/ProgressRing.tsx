@@ -5,7 +5,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import Svg, { Circle } from 'react-native-svg';
+import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg';
 
 import { useMotion, useTheme } from '@/theme';
 
@@ -25,7 +25,7 @@ interface ProgressRingProps {
 export function ProgressRing({
   value,
   size = 72,
-  strokeWidth = 6,
+  strokeWidth = 7,
   tone = 'accent',
   children,
   accessibilityLabel,
@@ -36,6 +36,7 @@ export function ProgressRing({
   const safe = Number.isFinite(value) ? Math.min(Math.max(value, 0), 1) : 0;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
+  const gradientId = `ring-gradient-${tone}`;
 
   const progress = useSharedValue(0);
 
@@ -47,7 +48,10 @@ export function ProgressRing({
     strokeDashoffset: circumference * (1 - progress.value),
   }));
 
-  const toneColor = {
+  // Only the accent ring — the headline "consistency" metric — earns a
+  // gradient stroke. Status rings (positive/negative/attention) stay flat so
+  // their meaning reads instantly, without a color transition to parse.
+  const flatToneColor = {
     accent: theme.color.accent,
     positive: theme.color.positive,
     negative: theme.color.negative,
@@ -62,6 +66,14 @@ export function ProgressRing({
       accessibilityValue={{ min: 0, max: 100, now: Math.round(safe * 100) }}
     >
       <Svg width={size} height={size} style={{ position: 'absolute' }}>
+        {tone === 'accent' ? (
+          <Defs>
+            <LinearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+              <Stop offset="0%" stopColor={theme.color.accentGradient[0]} />
+              <Stop offset="100%" stopColor={theme.color.accentGradient[1]} />
+            </LinearGradient>
+          </Defs>
+        ) : null}
         <Circle
           cx={size / 2}
           cy={size / 2}
@@ -74,7 +86,7 @@ export function ProgressRing({
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke={toneColor}
+          stroke={tone === 'accent' ? `url(#${gradientId})` : flatToneColor}
           strokeWidth={strokeWidth}
           fill="none"
           strokeLinecap="round"

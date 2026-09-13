@@ -1,10 +1,12 @@
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
 import { View } from 'react-native';
 
 import {
   AnimatedNumber,
   Card,
+  HeroGlow,
   ProgressBar,
   ProgressRing,
   Screen,
@@ -36,10 +38,11 @@ export default function HomeScreen() {
 
   return (
     <Screen scroll bottomInset={24}>
+      <HeroGlow />
       <View style={{ paddingTop: theme.spacing.lg, marginBottom: theme.spacing.xl }}>
-        <Text variant="title1">
+        <Text variant="display">
           {greeting}
-          {name ? `, ${name}` : ''}.
+          {name ? `,\n${name}.` : '.'}
         </Text>
       </View>
 
@@ -151,24 +154,46 @@ function WorkoutCard({
   const theme = useTheme();
 
   return (
-    <Card onPress={onPress} accessibilityLabel={`Workout: ${title}, ${subtitle}`}>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <View style={{ flex: 1, gap: 2 }}>
-          <Text variant="overline" tone="muted">
-            Workout
-          </Text>
-          <Text variant="title2" style={{ marginTop: theme.spacing.xs }}>
-            {title}
-          </Text>
-          <Text variant="footnote" tone={done ? 'positive' : 'secondary'}>
-            {subtitle}
-          </Text>
+    <Card
+      onPress={onPress}
+      padded={false}
+      accessibilityLabel={`Workout: ${title}, ${subtitle}`}
+      style={{ overflow: 'hidden' }}
+    >
+      <View style={{ flexDirection: 'row' }}>
+        {!rest ? (
+          <LinearGradient
+            colors={theme.color.accentGradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 0, y: 1 }}
+            style={{ width: 4 }}
+          />
+        ) : null}
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            padding: theme.spacing.base,
+          }}
+        >
+          <View style={{ flex: 1, gap: 2 }}>
+            <Text variant="overline" tone="muted">
+              Workout
+            </Text>
+            <Text variant="title2" style={{ marginTop: theme.spacing.xs }}>
+              {title}
+            </Text>
+            <Text variant="footnote" tone={done ? 'positive' : 'secondary'}>
+              {subtitle}
+            </Text>
+          </View>
+          <Ionicons
+            name={rest ? 'moon-outline' : done ? 'checkmark-circle' : 'chevron-forward'}
+            size={rest || done ? 22 : 18}
+            color={done ? theme.color.positive : theme.color.textMuted}
+          />
         </View>
-        <Ionicons
-          name={rest ? 'moon-outline' : done ? 'checkmark-circle' : 'chevron-forward'}
-          size={rest || done ? 22 : 18}
-          color={done ? theme.color.positive : theme.color.textMuted}
-        />
       </View>
     </Card>
   );
