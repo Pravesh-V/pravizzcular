@@ -17,6 +17,8 @@ interface OnboardingStepProps {
   onPrimary: () => void;
   primaryDisabled?: boolean;
   onBack?: () => void;
+  /** Scrollable variant for steps with enough content to overflow shorter viewports. */
+  scroll?: boolean;
 }
 
 export function OnboardingStep({
@@ -29,6 +31,7 @@ export function OnboardingStep({
   onPrimary,
   primaryDisabled = false,
   onBack,
+  scroll = false,
 }: OnboardingStepProps) {
   const theme = useTheme();
   const motion = useMotion();
@@ -37,7 +40,7 @@ export function OnboardingStep({
   const canGoBack = step > 1;
 
   return (
-    <Screen>
+    <Screen scroll={scroll} contentContainerStyle={scroll ? { flexGrow: 1 } : undefined}>
       <View style={{ flex: 1, paddingTop: theme.spacing.base }}>
         <View
           style={{

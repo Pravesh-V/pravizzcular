@@ -96,6 +96,7 @@ function ProfileStep({ step, totalSteps, onBack, onNext }: StepProps) {
       subtitle="Used to personalise targets and comparisons. Nothing leaves your device."
       onPrimary={onNext ?? (() => {})}
       primaryDisabled={draft.displayName.trim().length === 0}
+      scroll
     >
       <View style={{ gap: theme.spacing.base }}>
         <Field
